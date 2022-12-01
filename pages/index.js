@@ -1,14 +1,6 @@
 import Head from "next/head";
 import { useState } from "react";
 import styles from "./index.module.css";
-const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
-
-
-
 
 export default function Home() {
   const [ingredientInput, setingredientInput] = useState("");
@@ -48,7 +40,9 @@ export default function Home() {
     if (result) {
       const resultSplit = result.split(/\r?\n/);
       return resultSplit.map((item, index) => {
-        if (index < resultSplit.indexOf("Ingredients:")) { // Title recipe
+        if(index == 0 && index !== resultSplit.indexOf("Ingredients:")){
+          return
+        } else if (index < resultSplit.indexOf("Ingredients:")) { // Title recipe
           return <h2>{item}</h2>;
         } else if (index == resultSplit.indexOf("Ingredients:")) {
           return <strong>{item}</strong>;
@@ -60,21 +54,22 @@ export default function Home() {
     }
   }
 
+  function showImg() {
+    if (result) {
+      const resultSplit = result.split(/\r?\n/);
+      return resultSplit.map((item, index) => {
+        if (index == 0) {
+          return <img src={item} alt="recipe" />;
+          console.log(item);
+        }
+      });
+    }
+  }
+
   // if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
   //   console.log("Let's get this party started")
   //   // navigator.mediaDevices.getUserMedia({video: true})
   // }
-
-const generateImage = async () => {
-    const res = await openai.createImage({
-      prompt: prompt,
-      n: 1,
-      size: "512x512",
-    });
-
-    setResult(res.data.data[0].url);
-  };
-
 
   return (
     <div>
@@ -102,7 +97,8 @@ const generateImage = async () => {
           </div>
           <div className={styles.result2}>
             {getInstructions()}
-            <button className="show" onClick={ generateImage } style={{display:"none"}}>what does it look like</button>
+            <button className="show" style={{display:"none"}}>what does it look like</button>
+            {showImg()}
           </div>
 
         </div>

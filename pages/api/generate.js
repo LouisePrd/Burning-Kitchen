@@ -15,12 +15,19 @@ export default async function (req, res) {
     frequency_penalty: 0.0,
     presence_penalty: 0.0,
   })
-  res.status(200).json({ result: response.data.choices[0].text });
+
+  const nomRecette = response.data.choices[0].text.split(/\r?\n/).filter((item) => item !== "")[0];
+
+  const response1 = await openai.createImage({
+    prompt: nomRecette,
+    n: 1,
+    size: "256x256",
+  })
+
+  res.status(200).json({ result: response1.data.data[0].url + '\n' + response.data.choices[0].text });
 }
 
 function generatePrompt(ingredient) {
-  // const capitalizedIngredient =
-  //   ingredient[0].toUpperCase() + ingredient.slice(1).toLowerCase();
   return `Write a recipe based on these ingredients and instructions:
   Ingredients: ${ingredient}
   Instructions:`;
