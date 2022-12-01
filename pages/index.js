@@ -7,7 +7,11 @@ export default function Home() {
   const [result, setResult] = useState();
 
   async function onSubmit(event) {
+    if (result) {
+      document.querySelector(".showImg").style.display = "none";
+    }
     setResult("Loading...");
+    document.querySelector(".show").style.display = "none";
     event.preventDefault();
     const response = await fetch("/api/generate", {
       method: "POST",
@@ -18,7 +22,6 @@ export default function Home() {
     });
     const data = await response.json();
     setResult(data.result);
-    setingredientInput("");
     document.querySelector(".show").style.display = "block";
   }
 
@@ -27,7 +30,7 @@ export default function Home() {
       const resultSplit = result.split(/\r?\n/);
       return resultSplit.map((item, index) => {
         if (index == resultSplit.indexOf("Instructions:")) {
-          return <strong>{item}</strong>;
+          return <strong key={index} >{item}</strong>;
         }
         else if (index > resultSplit.indexOf('Instructions:')) { // index > 1 is the instructions
           return <p key={index}>{item}</p>;
@@ -40,12 +43,12 @@ export default function Home() {
     if (result) {
       const resultSplit = result.split(/\r?\n/);
       return resultSplit.map((item, index) => {
-        if(index == 0 && index !== resultSplit.indexOf("Ingredients:")){
+        if (index == 0 && index !== resultSplit.indexOf("Ingredients:")) {
           return
         } else if (index < resultSplit.indexOf("Ingredients:")) { // Title recipe
-          return <h2>{item}</h2>;
+          return <h2 key={index}>{item}</h2>;
         } else if (index == resultSplit.indexOf("Ingredients:")) {
-          return <strong>{item}</strong>;
+          return <strong key={index}>{item}</strong>;
         }
         else if (index > resultSplit.indexOf('Ingredients:') && index < resultSplit.indexOf('Instructions:')) { // index > 1 is the instructions
           return <p key={index}>{item}</p>;
@@ -59,17 +62,29 @@ export default function Home() {
       const resultSplit = result.split(/\r?\n/);
       return resultSplit.map((item, index) => {
         if (index == 0) {
-          return <img src={item} alt="recipe" />;
-          console.log(item);
+          return <img key={index} src={item} className="showImg" style={{ display: "none" }} />;
         }
       });
     }
   }
 
-  // if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
-  //   console.log("Let's get this party started")
-  //   // navigator.mediaDevices.getUserMedia({video: true})
-  // }
+  function displayImg() {
+    if (result) {
+      if (document.querySelector(".showImg").style.display == "none") {
+        document.querySelector(".showImg").style.display = "block";       
+      } else {
+        document.querySelector(".showImg").style.display = "none";
+      }
+    }
+  }
+
+
+  function launchCamera() {
+    if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+      console.log("Let's get this party started")
+      // navigator.mediaDevices.getUserMedia({video: true})
+    }
+  }  
 
   return (
     <div>
@@ -79,10 +94,11 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+
         <h3>Burning Kitchen</h3>
         <div className="container" style={{ display: 'flex' }}>
-          <div className="title">
-            <center><img src="/cook.png" className={styles.icon} /></center>
+          <div className={styles.title}>
+            <img src="/cook.png" className={styles.icon} />
             <form onSubmit={onSubmit}>
               <input
                 type="text"
@@ -97,12 +113,17 @@ export default function Home() {
           </div>
           <div className={styles.result2}>
             {getInstructions()}
-            <button className="show" style={{display:"none"}}>what does it look like</button>
-            {showImg()}
+            <button className="show" onClick={displayImg} style={{ display: "none" }}>what does it look like</button>
+            <div>{showImg()}</div>
           </div>
 
         </div>
       </main>
+      <style jsx>{`
+        .showImg {
+          margin-top: 20px;
+        }
+      `}</style>
     </div>
   );
 }
