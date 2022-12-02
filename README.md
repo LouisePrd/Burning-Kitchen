@@ -14,4 +14,6 @@ Javascript, Nextjs, Canvas2D, , API OpenAI
 
 ## Demo
 
+(Attention : ne fonctionne pas sans le token)
+
 ![burning-kitchen-demo](https://user-images.githubusercontent.com/77757761/205369417-61d4ae16-bbff-4fcf-972e-c110e0c83222.gif)
