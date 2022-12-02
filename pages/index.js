@@ -22,7 +22,7 @@ export default function Home() {
     });
     const data = await response.json();
     setResult(data.result);
-    document.querySelector(".show").style.display = "block";
+    document.querySelector(".show").style.display = "inline";
   }
 
   function getInstructions() {
@@ -30,10 +30,10 @@ export default function Home() {
       const resultSplit = result.split(/\r?\n/);
       return resultSplit.map((item, index) => {
         if (index == resultSplit.indexOf("Instructions:")) {
-          return <strong key={index} >{item}</strong>;
+          return <div key={index} style={{ "marginBottom": "18px" }}><strong key={index}>{item}</strong></div>;
         }
         else if (index > resultSplit.indexOf('Instructions:')) { // index > 1 is the instructions
-          return <p key={index}>{item}</p>;
+          return <span key={index}>{item}</span>;
         }
       });
     }
@@ -62,7 +62,7 @@ export default function Home() {
       const resultSplit = result.split(/\r?\n/);
       return resultSplit.map((item, index) => {
         if (index == 0) {
-          return <img key={index} src={item} className="showImg" style={{ display: "none" }} />;
+          return <div key={index} style={{ "marginLeft": "30%" }}><img key={index} src={item} className="showImg" style={{ display: "none" }} /></div>;
         }
       });
     }
@@ -71,7 +71,7 @@ export default function Home() {
   function displayImg() {
     if (result) {
       if (document.querySelector(".showImg").style.display == "none") {
-        document.querySelector(".showImg").style.display = "block";
+        document.querySelector(".showImg").style.display = "inline";
       } else {
         document.querySelector(".showImg").style.display = "none";
       }
@@ -106,7 +106,7 @@ export default function Home() {
       // Canvas 2D
       ctx.save();
       ctx.beginPath();
-      ctx.arc(canvas.width / 2, canvas.height / 2, 25, 0, Math.PI * 2, true);
+      ctx.arc(canvas.width / 2, canvas.height / 2, 26, 0, Math.PI * 2, true);
       ctx.closePath();
       ctx.clip();
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -131,17 +131,17 @@ export default function Home() {
           <button className={styles.btnVideo} id="start-camera">Create avatar</button>
           <button className={styles.btnVideo} id="click-photo">Let's cook !</button>
           <video className="videoLive" id="video" width="206" height="100" autoPlay style={{ display: "none" }}></video>
-          
+
         </div>
 
         <div className="container" style={{ display: 'flex' }}>
           <div className={styles.title}>
             <img src="/cook.png" className={styles.icon} />
-            <p className={styles.intro}>Ready to be best cooker ?</p>
+            <p className={styles.intro}>Ready to be a cooker ?</p>
             <canvas className="photoTaken" id="canvas" width="120" height="85"></canvas>
             <style jsx>{`
               .photoTaken {
-                margin-bottom: -1px;margin-left: -126px;
+                marginBottom: 0px;margin-left: -290px;
               }`}</style>
             <form onSubmit={onSubmit}>
               <input
@@ -158,17 +158,17 @@ export default function Home() {
           <div className={styles.result2}>
             {getInstructions()}
             <button className="show" onClick={displayImg} style={{ display: "none" }}>what does it look like ?</button>
-            <div>{showImg()}</div>
             <style jsx>{`
               .show {
-                max-width: 400px;padding: 8px 10px;
+                max-width: 100%;padding: 8px 10px;
                 color: black;background-color: #f2b79f;
                 border: none; border-radius: 4px;
                 font-family: "ColfaxAI", Helvetica, sans-serif;
-                margin-bottom: 10px;
+                margin-bottom: 10px;margin-top: 15px;
               }`}</style>
+              <div>{showImg()}</div>
           </div>
-
+          
         </div>
       </main>
     </div>
