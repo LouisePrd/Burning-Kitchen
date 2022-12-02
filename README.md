@@ -10,7 +10,7 @@ Jouez avec l'IA générative : devenez un chef cuisiner en générant votre rece
 
 ## Techno
 
-Javascript, Nextjs, Canvas2D, , API OpenAI
+Javascript, Nextjs, Canvas2D, API OpenAI
 
 ## Demo accélérée
 
