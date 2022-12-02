@@ -1,4 +1,4 @@
-<h1>Devenez chef cuisiner en générant une recette personnalisée !</h1>
+<h1>Devenez chef cuisiner grâce à l'IA !</h1>
 
 ## L'expérience
 
