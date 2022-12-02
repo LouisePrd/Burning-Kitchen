@@ -90,7 +90,7 @@
   flex-direction: column;
   align-items: center;
   padding-right: 12px;
-  width: 600px;
+  max-width: 500px;
 }
 
 .main .result1 {

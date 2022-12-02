@@ -62,7 +62,7 @@ export default function Home() {
       const resultSplit = result.split(/\r?\n/);
       return resultSplit.map((item, index) => {
         if (index == 0) {
-          return <div key={index} style={{ "marginLeft": "170px" }}><img key={index} src={item} className="showImg" style={{ display: "none" }} />
+          return <div key={index} style={{ "marginLeft": "120px" }}><img key={index} src={item} className="showImg" style={{ display: "none" }} />
           </div>;
         }
       });
@@ -116,11 +116,20 @@ export default function Home() {
     });
   }
 
-  function saveButton() {
+  function loadImgpdf() {
+    var imgCertfif = new Image()
+    imgCertfif.src = '/certif.png';
+    // attendre 5 sec
+    setTimeout(function () {
+      saveButton(imgCertfif);
+    }, 1000);
+
+  }
+
+  function saveButton(imgCertfif) {
     if (!result) {
       alert('Please choose some ingredients first');
     } else {
-      // var img = document.querySelector(".showImg");
       const resultSplitPdf = result.split(/\r?\n/);
       let urlResult = resultSplitPdf[0];
       resultSplitPdf.shift();
@@ -130,16 +139,34 @@ export default function Home() {
       resultSplitPdf.shift();
 
       var doc = new jsPDF();
-      doc.setFontSize(15);
+      doc.setFont("ribbon");
+      doc.setFontSize(16);
+      doc.setTextColor('#D05353');
+
+      var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+      doc.text(titleResult, pageWidth / 2 - 30, 30, { align: 'center' });
+      doc.setFontSize(12);
+      doc.setTextColor('#000000');
+
+      doc.text('Well done, you have created a great recipe! Heres the recap if you want to try and reproduce it:', 20, 45);
       var overflowTxt = doc.splitTextToSize(resultSplitPdf, 180);
-      doc.text(100, 20, titleResult);
-      doc.text(15, 30, overflowTxt);
+      doc.text(20, 50, overflowTxt);
 
-      let urlImage = canvas.toDataURL('image/png');
-      let urlCook = './cook.png';
+      // date today
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var yyyy = today.getFullYear();
 
-      // doc.addImage('/cook.png', 'PNG', 20, 20, 50, 50);
-      doc.addImage(urlImage, 'png', 0, 0, 28, 20);
+      doc.text(pageWidth - 50, 20, 'Date: ' + dd + '/' + mm + '/' + yyyy);
+
+      let urlAvatar = canvas.toDataURL('image/png');
+      doc.addImage(urlAvatar, 'png', 10, 10, 30, 22);
+
+      doc.addImage(imgCertfif, 'png', 28, 22, 8, 8);
+      doc.setFontSize(30);
+      doc.text('A TABLE !', 20, pageWidth - 20);
+
       doc.save('recipe.pdf');
       alert('Your recipe has been saved');
     }
@@ -152,11 +179,6 @@ export default function Home() {
         <title>Burning Kitchen</title>
         <link rel="icon" href="/cook.png" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
-        <script type="text/javascript" src="libs/png_support/zlib.js"></script>
-        <script type="text/javascript" src="libs/png_support/png.js"></script>
-        <script type="text/javascript" src="jspdf.plugin.addimage.js"></script>
-        <script type="text/javascript" src="jspdf.plugin.png_support.js"></script>
-        <script type="text/javascript" src="jspdf.js"></script>
       </Head>
 
       <main className={styles.main}>
@@ -189,7 +211,7 @@ export default function Home() {
               />
               <input type="submit" value="Your recipe" />
             </form>
-            <button className={styles.saveCreation} onClick={saveButton} >Save your creation</button>
+            <button className={styles.saveCreation} onClick={loadImgpdf} >Save your creation</button>
             <div className={styles.result1}>{getIngredients()}</div>
           </div>
           <div className={styles.result2}>
