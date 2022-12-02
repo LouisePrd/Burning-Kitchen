@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useState } from "react";
 import styles from "./index.module.css";
 
+
 export default function Home() {
   const [ingredientInput, setingredientInput] = useState("");
   const [result, setResult] = useState();
@@ -119,14 +120,16 @@ export default function Home() {
   function loadImgpdf() {
     var imgCertfif = new Image()
     imgCertfif.src = '/certif.png';
+    var toque = new Image()
+    toque.src = '/toque.png';
     // attendre 5 sec
     setTimeout(function () {
-      saveButton(imgCertfif);
+      saveButton(imgCertfif, toque);
     }, 1000);
 
   }
 
-  function saveButton(imgCertfif) {
+  function saveButton(imgCertfif, toque) {
     if (!result) {
       alert('Please choose some ingredients first');
     } else {
@@ -164,8 +167,10 @@ export default function Home() {
       doc.addImage(urlAvatar, 'png', 10, 10, 30, 22);
 
       doc.addImage(imgCertfif, 'png', 28, 22, 8, 8);
+      doc.addImage(toque, 'png', 20, 5.5, 12, 12);
+
       doc.setFontSize(30);
-      doc.text('A TABLE !', 20, pageWidth - 20);
+      doc.text('A TABLE !', 20, pageWidth);
 
       doc.save('recipe.pdf');
       alert('Your recipe has been saved');

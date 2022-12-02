@@ -27,12 +27,12 @@
   flex-direction: column;
   align-items: center;
   padding-top: 45px;
-  background-color: antiquewhite;
-  top: 0;
-  left: 0;
+  /* background-color: antiquewhite; */
   width: 100vw;
   min-height: 100vh;
-
+  background-image: url(https://blog.csiro.au/wp-content/uploads/2015/06/10994875346_f06fff4832_k.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
   padding-bottom: 12px;
 }
 
@@ -91,6 +91,7 @@
   align-items: center;
   padding-right: 12px;
   max-width: 500px;
+  background-color: antiquewhite;
 }
 
 .main .result1 {
@@ -106,6 +107,7 @@
   border-bottom: 4px solid #f2b79f;
   text-align: justify;
   margin-top: 10px;
+  background-color: antiquewhite;
 }
 
 .btnVideo {
@@ -135,4 +137,8 @@
   margin: auto;
   display: flex;
   margin-top: 14px;
+}
+
+.main h3 {
+  color: white;
 }
