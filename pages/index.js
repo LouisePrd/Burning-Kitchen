@@ -71,20 +71,50 @@ export default function Home() {
   function displayImg() {
     if (result) {
       if (document.querySelector(".showImg").style.display == "none") {
-        document.querySelector(".showImg").style.display = "block";       
+        document.querySelector(".showImg").style.display = "block";
       } else {
         document.querySelector(".showImg").style.display = "none";
       }
     }
   }
 
+  //check if document is defined
+  if (typeof document !== "undefined") {
+    let camera_button = document.querySelector("#start-camera");
+    let video = document.querySelector("#video");
+    let click_button = document.querySelector("#click-photo");
+    let canvas = document.querySelector("#canvas");
+    let ctx = canvas.getContext("2d");
 
-  function launchCamera() {
-    if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
-      console.log("Let's get this party started")
-      // navigator.mediaDevices.getUserMedia({video: true})
-    }
-  }  
+    camera_button.addEventListener('click', async function () {
+      if (document.querySelector(".videoLive").style.display == "block") {
+        document.querySelector(".videoLive").style.display = "none";
+      } else {
+        document.querySelector(".videoLive").style.display = "block";
+      }
+
+      if (navigator.mediaDevices.getUserMedia.video !== true) {
+        let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+        video.srcObject = stream;
+      } else {
+        console.log('camera already on')
+      }
+    });
+
+    click_button.addEventListener('click', function () {
+      document.querySelector(".videoLive").style.display = "none";
+      // Canvas 2D
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(canvas.width / 2, canvas.height / 2, 25, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      let urlImage = canvas.toDataURL('image/jpeg');
+    });
+  }
+
 
   return (
     <div>
@@ -96,9 +126,23 @@ export default function Home() {
       <main className={styles.main}>
 
         <h3>Burning Kitchen</h3>
+
+        <div className={styles.secVideo}>
+          <button className={styles.btnVideo} id="start-camera">Create avatar</button>
+          <button className={styles.btnVideo} id="click-photo">Let's cook !</button>
+          <video className="videoLive" id="video" width="206" height="100" autoPlay style={{ display: "none" }}></video>
+          
+        </div>
+
         <div className="container" style={{ display: 'flex' }}>
           <div className={styles.title}>
             <img src="/cook.png" className={styles.icon} />
+            <p className={styles.intro}>Ready to be best cooker ?</p>
+            <canvas className="photoTaken" id="canvas" width="120" height="85"></canvas>
+            <style jsx>{`
+              .photoTaken {
+                margin-bottom: -1px;margin-left: -126px;
+              }`}</style>
             <form onSubmit={onSubmit}>
               <input
                 type="text"
@@ -113,17 +157,20 @@ export default function Home() {
           </div>
           <div className={styles.result2}>
             {getInstructions()}
-            <button className="show" onClick={displayImg} style={{ display: "none" }}>what does it look like</button>
+            <button className="show" onClick={displayImg} style={{ display: "none" }}>what does it look like ?</button>
             <div>{showImg()}</div>
+            <style jsx>{`
+              .show {
+                max-width: 400px;padding: 8px 10px;
+                color: black;background-color: #f2b79f;
+                border: none; border-radius: 4px;
+                font-family: "ColfaxAI", Helvetica, sans-serif;
+                margin-bottom: 10px;
+              }`}</style>
           </div>
 
         </div>
       </main>
-      <style jsx>{`
-        .showImg {
-          margin-top: 20px;
-        }
-      `}</style>
     </div>
   );
 }
