@@ -8,7 +8,7 @@ const openai = new OpenAIApi(configuration);
 export default async function (req, res) {
   const response = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt: generatePrompt(req.body.ingredient) + ' on a plate',
+    prompt: generatePrompt(req.body.ingredient) + 'meal',
     temperature: 0.3,
     max_tokens: 250,
     top_p: 1.0,

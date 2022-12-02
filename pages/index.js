@@ -62,7 +62,8 @@ export default function Home() {
       const resultSplit = result.split(/\r?\n/);
       return resultSplit.map((item, index) => {
         if (index == 0) {
-          return <div key={index} style={{ "marginLeft": "30%" }}><img key={index} src={item} className="showImg" style={{ display: "none" }} /></div>;
+          return <div key={index} style={{ "marginLeft": "170px" }}><img key={index} src={item} className="showImg" style={{ display: "none" }} />
+          </div>;
         }
       });
     }
@@ -71,7 +72,7 @@ export default function Home() {
   function displayImg() {
     if (result) {
       if (document.querySelector(".showImg").style.display == "none") {
-        document.querySelector(".showImg").style.display = "inline";
+        document.querySelector(".showImg").style.display = "flex";
       } else {
         document.querySelector(".showImg").style.display = "none";
       }
@@ -115,12 +116,47 @@ export default function Home() {
     });
   }
 
+  function saveButton() {
+    if (!result) {
+      alert('Please choose some ingredients first');
+    } else {
+      // var img = document.querySelector(".showImg");
+      const resultSplitPdf = result.split(/\r?\n/);
+      let urlResult = resultSplitPdf[0];
+      resultSplitPdf.shift();
+      resultSplitPdf.shift();
+      resultSplitPdf.shift();
+      let titleResult = resultSplitPdf[0];
+      resultSplitPdf.shift();
+
+      var doc = new jsPDF();
+      doc.setFontSize(15);
+      var overflowTxt = doc.splitTextToSize(resultSplitPdf, 180);
+      doc.text(100, 20, titleResult);
+      doc.text(15, 30, overflowTxt);
+
+      let urlImage = canvas.toDataURL('image/png');
+      let urlCook = './cook.png';
+
+      // doc.addImage('/cook.png', 'PNG', 20, 20, 50, 50);
+      doc.addImage(urlImage, 'png', 0, 0, 28, 20);
+      doc.save('recipe.pdf');
+      alert('Your recipe has been saved');
+    }
+  }
+
 
   return (
     <div>
       <Head>
         <title>Burning Kitchen</title>
         <link rel="icon" href="/cook.png" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+        <script type="text/javascript" src="libs/png_support/zlib.js"></script>
+        <script type="text/javascript" src="libs/png_support/png.js"></script>
+        <script type="text/javascript" src="jspdf.plugin.addimage.js"></script>
+        <script type="text/javascript" src="jspdf.plugin.png_support.js"></script>
+        <script type="text/javascript" src="jspdf.js"></script>
       </Head>
 
       <main className={styles.main}>
@@ -137,11 +173,11 @@ export default function Home() {
         <div className="container" style={{ display: 'flex' }}>
           <div className={styles.title}>
             <img src="/cook.png" className={styles.icon} />
-            <p className={styles.intro}>Ready to be a cooker ?</p>
+            <p className={styles.intro}> Ready to be a chef ? 🍳</p>
             <canvas className="photoTaken" id="canvas" width="120" height="85"></canvas>
             <style jsx>{`
               .photoTaken {
-                marginBottom: 0px;margin-left: -290px;
+                marginBottom: 0px;margin-left: -301px;
               }`}</style>
             <form onSubmit={onSubmit}>
               <input
@@ -153,6 +189,7 @@ export default function Home() {
               />
               <input type="submit" value="Your recipe" />
             </form>
+            <button className={styles.saveCreation} onClick={saveButton} >Save your creation</button>
             <div className={styles.result1}>{getIngredients()}</div>
           </div>
           <div className={styles.result2}>
@@ -166,9 +203,9 @@ export default function Home() {
                 font-family: "ColfaxAI", Helvetica, sans-serif;
                 margin-bottom: 10px;margin-top: 15px;
               }`}</style>
-              <div>{showImg()}</div>
+            <div>{showImg()}</div>
           </div>
-          
+
         </div>
       </main>
     </div>
