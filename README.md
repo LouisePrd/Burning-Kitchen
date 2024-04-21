@@ -1,4 +1,4 @@
-<h1>DBecome a cooking chef with generative AI !</h1>
+<h1>Become a cooking chef with generative AI !</h1>
 
 ## The experience
 
