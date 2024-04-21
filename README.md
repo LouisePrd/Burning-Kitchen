@@ -1,18 +1,18 @@
-<h1>Devenez chef cuisiner grâce à l'IA !</h1>
+<h1>DBecome a cooking chef with generative AI !</h1>
 
-## L'expérience
+## The experience
 
-L'utilisateur peut choisir son avatar avec la webcam, entrer des ingrédients et une recette est générée. Il peut la lire et voir le résultat de la recette en image également avec l'IA. Enfin, il peut sauvegarder toutes ces données dans un PDF.
+The user can choose his avatar with his webcam, enter some ingredients and a recipe is generated. He can read it and see the result of the recipe in images, also with AI. Finally, he can save all these details in a PDF file.
 
-## Le but
+## The goal
 
-Jouez avec l'IA générative : devenez un chef cuisiner en générant votre recette personnalisée !
+Play with generative AI: become a chef by generating your own personalized recipe!
 
 ## Techno
 
 Javascript, Nextjs, Canvas2D, API OpenAI
 
-## Visuel
+## Results
 
 
 ![Sans-titre-1](https://user-images.githubusercontent.com/77757761/213553377-da8f4b50-ddc2-4885-9449-13caae5e127b.jpg)
