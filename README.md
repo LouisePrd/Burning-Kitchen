@@ -1,10 +1,10 @@
 <h1>Become a cooking chef with generative AI !</h1>
 
-## The experience
+## Experience
 
 The user can choose his avatar with his webcam, enter some ingredients and a recipe is generated. He can read it and see the result of the recipe in images, also with AI. Finally, he can save all these details in a PDF file.
 
-## The goal
+## Goal
 
 Play with generative AI: become a chef by generating your own personalized recipe!
 
